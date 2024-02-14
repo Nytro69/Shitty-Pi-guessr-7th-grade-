@@ -1,6 +1,8 @@
 import csv
 import os
 
+inst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
 pi = [
     1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4,
     6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7,
@@ -22,8 +24,14 @@ def write():
     print(">> 3.")
     score = 0
     for i in range(len(pi)):
-        guess = input(">> ")
-        guess = int(guess)
+        try:
+            guess = input(">> ")
+            guess = int(guess)
+        except Exception:
+            if guess not in inst:
+                print("\ntype in a digit")
+                guess = 11
+
         if guess == pi[i]:
             score += 1
         else:
@@ -41,7 +49,7 @@ def write():
 
     else:
         print(f"\nWrong, the next digit was: {pi[score]}\n\nYour score was: {score}\n")
-    print(f"Record: {high_score}, Record holder: {high_scorer}")
+    print(f"Record: {high_score}, Record holder: {high_scorer}\n")
 
 def get_high_score():
 
@@ -60,7 +68,7 @@ def get_high_score():
         if int(rows[i][1]) > high:
             high = int(rows[i][1])
             highest_scorer = rows[i][0]
-            scorers = [highest_scorer] # reset scores if another score is higher
+            scorers = [highest_scorer] # reset
         elif int(rows[i][1]) == high:
             scorers.append(rows[i][0])
 
