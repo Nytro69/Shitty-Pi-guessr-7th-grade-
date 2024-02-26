@@ -1,7 +1,9 @@
 import csv
 import os
 
-inst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+inst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0] # single digit numbers
+
+# 200 digits of pi (couldn't find a library with the digits)
 
 pi = [
     1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4,
@@ -21,6 +23,7 @@ os.system('clear')
 
 def write():
     name = input("Name: ")
+    klass = input("Class: ")
     print(">> 3.")
     score = 0
     for i in range(len(pi)):
@@ -38,9 +41,9 @@ def write():
             break
 
     with open("pi_leaderboard.csv", "a", newline='') as csvfile:
-        fieldnames = ['Name', 'Score']
+        fieldnames = ['Name', 'Score',  "Class"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writerow({'Name': name, 'Score': score})
+        writer.writerow({'Name': name, 'Score': score, 'Class': klass})
 
     # Print high score and highest scorer's name
     high_score, high_scorer = get_high_score()
