@@ -1,5 +1,6 @@
 import csv
 import os
+import time
 
 inst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 
@@ -16,73 +17,76 @@ pi = [
     9, 6, 4, 4, 6, 2, 2, 9, 4, 8, 9, 5, 4, 9, 3, 0, 3, 8, 1, 9,
     6, 4, 4, 2, 8, 8, 1, 0, 9, 7, 5, 6, 6, 5, 9, 3, 3, 4, 4, 6
 ]
+while True:
+    os.system('clear')
 
-os.system('clear')
+    def write():
+        global guess
+        name = input("Namn: ")
+        if name == "":
+            quit()
+        clas = input("Klass: ")
+        print(">> 3.")
+        score = 0
+        for i in range(len(pi)):
+            try:
+                guess = input(">> ")
+                guess = int(guess)
+            except Exception:
+                if guess not in inst:
+                    print("\ndu ska skriva en siffra")
+                    guess = 11
 
-def write():
-    global guess
-    name = input("Namn: ")
-    clas = input("Klass: ")
-    print(">> 3.")
-    score = 0
-    for i in range(len(pi)):
-        try:
-            guess = input(">> ")
-            guess = int(guess)
-        except Exception:
-            if guess not in inst:
-                print("\ndu ska skriva en siffra")
-                guess = 11
+            if guess == pi[i]:
+                score += 1
+            else:
+                break
+        if score == 199:
+            print("\n\nGrattis, du klararde 200 siffror av pi, mer än vad jag förväntade mig någon skulle klarar av\n\n")
 
-        if guess == pi[i]:
-            score += 1
-        else:
-            break
-    if score == 199:
-        print("\n\nGrattis, du klararde 200 siffror av pi, mer än vad jag förväntade mig någon skulle klarar av\n\n")
-
-    with open("pi_leaderboard.csv", "a", newline='') as csvfile:
-        fieldnames = ['Name', 'Score', 'Class']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writerow({'Name': name, 'Score': score, 'Class': clas})
+        with open("pi_leaderboard.csv", "a", newline='') as csvfile:
+            fieldnames = ['Name', 'Score', 'Class']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writerow({'Name': name, 'Score': score, 'Class': clas})
 
     # Print high score and highest scorer's name
 
-    x = get_high_score()
+        x = get_high_score()
 
-    if score == x:
-        print(f"Grattis!! Nytt rekord av {name} {clas} med {score} siffror")
+        if score == x:
+            print(f"Grattis!! Nytt rekord av {name} {clas} med {score} siffror")
 
-    else:
-        print(f"\nFel, nästa siffra var: {pi[score]}\nDitt poäng var: {score}\n")
+        else:
+            print(f"\nFel, nästa siffra var: {pi[score]}\nDitt poäng var: {score}\n")
 
+        time.sleep(6)
 
-def get_high_score():
+    def get_high_score():
 
-    with open("pi_leaderboard.csv", "r") as csvfile:
-        reader = csv.reader(csvfile)
-        next(reader)  # Skip the header row
-        rows = list(reader)  # Convert iterator to list
+        with open("pi_leaderboard.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Skip the header row
+            rows = list(reader)  # Convert iterator to list
 
     # Sort the rows based on the scores (assuming the scores are in the second column)
-    rows.sort(key=lambda x: int(x[1]), reverse=True)
+        rows.sort(key=lambda x: int(x[1]), reverse=True)
 
     # Get the top five highest scorers
-    top_five = rows[:5]
+        top_five = rows[:5]
 
     # Print the top five highest scorers
-    for rank, (name, score, class_) in enumerate(top_five, start=1):
-        print(f"Rank {rank}: Namn: {name} {class_}, Siffror: {score}")
+        for rank, (name, score, class_) in enumerate(top_five, start=1):
+            print(f"Rank {rank}: Namn: {name} {class_}, Siffror: {score}")
 
-    high = 0
-    highest_scorer = ""
-    scorers = []
+        high = 0
+        highest_scorer = ""
+        scorers = []
 
-    for i in range(2, len(rows)):
-        if int(rows[i][1]) > high:
-            high = int(rows[i][1])
-            highest_scorer = rows[i][0]
+        for i in range(2, len(rows)):
+            if int(rows[i][1]) > high:
+                high = int(rows[i][1])
+                highest_scorer = rows[i][0]
 
-    return high
+        return high
 
-write()
+    write()
