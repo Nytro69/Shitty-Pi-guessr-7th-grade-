@@ -1,3 +1,5 @@
+# this is the version that continues to prompt even after you "lost", this for my pupil not having to run the program after finished. 
+# I will soon fix the swedish/German to english
 import csv
 import os
 import time
@@ -17,15 +19,15 @@ pi = [
     9, 6, 4, 4, 6, 2, 2, 9, 4, 8, 9, 5, 4, 9, 3, 0, 3, 8, 1, 9,
     6, 4, 4, 2, 8, 8, 1, 0, 9, 7, 5, 6, 6, 5, 9, 3, 3, 4, 4, 6
 ]
-while True:
+while True: # the continuous loop
     os.system('clear')
 
     def write():
         global guess
-        name = input("Namn: ")
-        if name == "":
+        name = input("Name: ").strip
+        if name == "quit":
             quit()
-        clas = input("Klass: ")
+        clas = input("Class: ")
         print(">> 3.")
         score = 0
         for i in range(len(pi)):
@@ -34,32 +36,30 @@ while True:
                 guess = int(guess)
             except Exception:
                 if guess not in inst:
-                    print("\ndu ska skriva en siffra")
+                    print("\nYou should input a digit")
                     guess = 11
 
             if guess == pi[i]:
                 score += 1
             else:
                 break
-        if score == 199:
-            print("\n\nGrattis, du klararde 200 siffror av pi, mer än vad jag förväntade mig någon skulle klarar av\n\n")
 
         with open("pi_leaderboard.csv", "a", newline='') as csvfile:
             fieldnames = ['Name', 'Score', 'Class']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writerow({'Name': name, 'Score': score, 'Class': clas})
 
-    # Print high score and highest scorer's name
+    # Print the high score and the highest scorer's name
 
         x = get_high_score()
 
         if score == x:
-            print(f"Grattis!! Nytt rekord av {name} {clas} med {score} siffror")
+            print(f"Congratulations!! Neew record by {name} {clas} with {score} digits")
 
         else:
-            print(f"\nFel, nästa siffra var: {pi[score]}\nDitt poäng var: {score}\n")
+            print(f"\nwrong, the next digit was: {pi[score]}\nYour score was: {score}\n")
 
-        time.sleep(6)
+        time.sleep(6) # pause to see the printed text and leaderboard
 
     def get_high_score():
 
@@ -76,7 +76,7 @@ while True:
 
     # Print the top five highest scorers
         for rank, (name, score, class_) in enumerate(top_five, start=1):
-            print(f"Rank {rank}: Namn: {name} {class_}, Siffror: {score}")
+            print(f"Rank {rank}: Name: {name} {class_}, Digits: {score}")
 
         high = 0
         highest_scorer = ""
