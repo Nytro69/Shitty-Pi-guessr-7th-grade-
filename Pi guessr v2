@@ -1,5 +1,4 @@
 # this is the version that continues to prompt even after you "lost", this for my pupil not having to run the program after finished. 
-# I will soon fix the swedish/German to english
 import csv
 import os
 import time
