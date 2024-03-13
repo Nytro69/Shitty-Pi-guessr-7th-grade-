@@ -1,0 +1,111 @@
+import csv
+import os
+import time
+import random
+
+inst = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+
+quotes = {
+    1: "let him cook",
+    2: "stay hard",
+    3: "bro has skibidi rizz",
+    4: "destroying the pi",
+    5: "low-key winnin",
+    6: "flexin the rizz",
+    7: "vibe check passed",
+    8: "destroying with facts and logic",
+    9: "he's cookin' no cap"
+}
+
+pi = [
+    1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4,
+    6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7,
+    1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9, 7, 4, 9, 4,
+    4, 5, 9, 2, 3, 0, 7, 8, 1, 6, 4, 0, 6, 2, 8, 6, 2, 0, 8, 9,
+    9, 8, 6, 2, 8, 0, 3, 4, 8, 2, 5, 3, 4, 2, 1, 1, 7, 0, 6, 7,
+    9, 8, 2, 1, 4, 8, 0, 8, 6, 5, 1, 3, 2, 8, 2, 3, 0, 6, 6, 4,
+    7, 0, 9, 3, 8, 4, 4, 6, 0, 9, 5, 5, 0, 5, 8, 2, 2, 3, 1, 7,
+    2, 5, 3, 5, 9, 4, 0, 8, 1, 2, 8, 4, 8, 1, 1, 1, 7, 4, 5, 0,
+    2, 8, 4, 1, 0, 2, 7, 0, 1, 9, 3, 8, 5, 2, 1, 1, 0, 5, 5, 5,
+    9, 6, 4, 4, 6, 2, 2, 9, 4, 8, 9, 5, 4, 9, 3, 0, 3, 8, 1, 9,
+    6, 4, 4, 2, 8, 8, 1, 0, 9, 7, 5, 6, 6, 5, 9, 3, 3, 4, 4, 6
+]
+while True:
+    os.system('clear')
+
+    with open("pi_leaderboard.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Skip the header row
+            rows = list(reader)  # Convert iterator to list
+
+    # Sort the rows based on the scores
+            rows.sort(key=lambda x: int(x[1]), reverse=True)
+
+            top_five = rows[:5]
+
+        # Print the top five highest scorers
+
+            for rank in range(len(top_five)):
+                print(f"Rank {rank + 1}: Namn: {top_five[rank][0]} {top_five[rank][2]}, Siffror: {top_five[rank][1]}")
+
+
+            print("\n Världs Rekord: Sharma, Siffror: 70030\n")
+    def write():
+        global guess
+        name = input("Namn: ")
+        if name == "":
+            quit()
+        clas = input("Klass: ")
+        os.system('clear')
+        print(">> 3.")
+        score = 0
+        for i in range(len(pi)):
+            try:
+                guess = input(">> ")
+                guess = int(guess)
+            except Exception:
+                if guess not in inst:
+                    print("\ndu ska skriva en siffra")
+                    guess = 11
+
+            if guess == pi[i]:
+                score += 1
+                if score%10 == 0:
+                    f = random.randint(1, len(quotes))
+                    print(quotes[f])
+            else:
+                break
+
+        if score == 199:
+            print("\n\nGrattis, du klararde 200 siffror av pi, du är skibidi sigma\n\n")
+
+
+        x = get_high_score(top_five)
+
+        if score > x:
+            print(f"Grattis!! Nytt rekord av {name} {clas} med {score} siffror")
+
+        else:
+            print(f"\nFel, nästa siffra var: {pi[score]}\nDitt poäng var: {score}\n")
+
+
+        with open("pi_leaderboard.csv", "a", newline='') as csvfile:
+            fieldnames = ['Name', 'Score', 'Class']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writerow({'Name': name, 'Score': score, 'Class': clas})
+
+        time.sleep(4)
+
+    def get_high_score(hig):
+
+        with open("pi_leaderboard.csv", "r") as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Skip the header row
+            rows = list(reader)  # Convert iterator to list
+
+        rows.sort(key=lambda x: int(x[1]), reverse=True)
+
+        high = hig[0][1]
+        return int(high)
+
+    write()
